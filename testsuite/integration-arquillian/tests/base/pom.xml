@@ -153,6 +153,10 @@
             <artifactId>infinispan-server-hotrod</artifactId>
             <version>${infinispan.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-quarkus-server</artifactId>
+        </dependency>
     </dependencies>
     
     <build>

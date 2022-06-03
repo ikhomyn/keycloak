@@ -39,7 +39,7 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.descriptor.api.Descriptor;
 import org.keycloak.testsuite.arquillian.SuiteContext;
-
+import org.keycloak.quarkus.runtime.Environment;
 /**
  * @author mhajas
  */
@@ -150,7 +150,7 @@ public class KeycloakQuarkusServerDeployableContainer implements DeployableConta
     private String[] getProcessCommands() {
         List<String> commands = new ArrayList<>();
 
-        commands.add("./kc.sh");
+        commands.add((Environment.isWindows() ? "kc.bat" : "kc.sh"));
         commands.add("-v");
         commands.add("start");
         commands.add("--http-enabled=true");
