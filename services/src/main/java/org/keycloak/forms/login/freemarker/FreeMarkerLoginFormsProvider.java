@@ -335,6 +335,24 @@ public class FreeMarkerLoginFormsProvider implements LoginFormsProvider {
     protected UriBuilder prepareBaseUriBuilder(boolean resetRequestUriParams) {
         String requestURI = uriInfo.getBaseUri().getPath();
         UriBuilder uriBuilder = UriBuilder.fromUri(requestURI);
+
+        boolean adminUriThemeV1 = authenticationSession.getRedirectUri().contains(String.format("/#/realms/%s/", realm.getName()));
+        boolean adminUriThemeV2 = authenticationSession.getRedirectUri().contains(String.format("/#/%s/", realm.getName()));
+        boolean currentAdminThemeV1 = realm.getAdminTheme() != null && realm.getAdminTheme().equals("keycloak");
+        boolean currentAdminThemeV2 = realm.getAdminTheme() != null && realm.getAdminTheme().equals("keycloak.v2");
+        logger.warn("adminUriThemeV1: "+adminUriThemeV1);
+        logger.warn("adminUriThemeV2: "+adminUriThemeV2);
+        logger.warn("currentAdminThemeV1: "+currentAdminThemeV1);
+        logger.warn("currentAdminThemeV2: "+currentAdminThemeV2);
+        logger.warn("url: "+authenticationSession.getRedirectUri());
+        if (adminUriThemeV1 && currentAdminThemeV2){
+            logger.warn("Admin THEME HAS CHANGED from V1 to V2. REPLACE authenticationSession.setRedirectUri() TO MAIN PAGE");
+        }else if(adminUriThemeV2 && currentAdminThemeV1){
+            logger.warn("Admin THEME HAS CHANGED from V2 to V1. REPLACE authenticationSession.setRedirectUri() MAIN PAGE");
+        } else{
+            logger.warn("Admin THEME IS SAME. NOTHING TO DO");
+        }
+
         if (resetRequestUriParams) {
             uriBuilder.replaceQuery(null);
         }
