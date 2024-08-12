@@ -33,6 +33,7 @@
     <description>Keycloak Test Parent</description>
 
     <modules>
+        <module>grid</module>
         <module>framework</module>
         <module>examples</module>
         <module>showcase</module>
